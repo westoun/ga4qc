@@ -49,16 +49,15 @@ class JensenShannonFitness(IFitness):
                 for _ in range(len(self.target_dists) - len(circuit_dists)):
                     circuit_dists.append(circuit_dists[0])
 
-            print(circuit_dists)
-            print(self.target_dists)
-
             errors: List[float] = []
             for circuit_dist, target_dist in zip(circuit_dists, self.target_dists):
                 assert len(circuit_dist) == len(
                     target_dist
                 ), f"Missmatch between produced distribution (len {len(circuit_dist)}) and target distribution (len {len(target_dist)})"
-
-                error = distance.jensenshannon(circuit_dist, target_dist)
+                
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    error = distance.jensenshannon(circuit_dist, target_dist)
                 errors.append(error)
 
             error = mean(errors)

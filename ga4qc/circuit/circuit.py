@@ -27,7 +27,7 @@ class Circuit:
     @property
     def case_count(self) -> int:
         for gate in self.gates:
-            if issubclass(gate, Oracle):
+            if type(gate) is Oracle:
                 return gate.case_count
 
         return 1

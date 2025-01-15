@@ -48,24 +48,28 @@ class GA:
 
             # TODO: Perform Elitism
 
-            # TODO: Clone Population
+            offspring = [circuit.copy() for circuit in population]
 
-            random.shuffle(population)
+            # Shuffle to avoid crossover in the same proximity across
+            # generations.
+            random.shuffle(offspring)
 
             for crossover in self.crossovers:
-                for circuit1, circuit2 in zip(population[:-1], population[1:]):
+                for circuit1, circuit2 in zip(offspring[:-1], offspring[1:]):
                     if random.random() < crossover.prob:
                         crossover.cross(circuit1, circuit2)
 
             for mutation in self.mutations:
-                for circuit in population:
+                for circuit in offspring:
                     if random.random() < mutation.prob:
                         mutation.mutate(circuit)
 
             for processor in self.processors:
-                processor.process(population)
+                processor.process(offspring)
 
-            population = self.selection.select(population)
+            population = self.selection.select(offspring, population_size)
 
             for callback in self.after_generation_callbacks:
                 callback(population)
+
+        return population

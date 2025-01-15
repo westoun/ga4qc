@@ -9,7 +9,6 @@ from ga4qc.fitness import IFitness
 from ga4qc.circuit_processor import ICircuitProcessor
 from ga4qc.selection import ISelection
 from ga4qc.seeder import ISeeder
-from ga4qc.stop_condition import IStopCondition
 from ga4qc.callback import ICallback
 
 
@@ -20,7 +19,6 @@ class GA:
     crossovers: List[ICrossover]
     circuit_processors: List[ICircuitProcessor]
     selection: ISelection
-    stop_conditions: List[IStopCondition]
 
     after_generation_callbacks: List[ICallback]
 
@@ -31,7 +29,6 @@ class GA:
         crossovers: List[ICrossover],
         circuit_processors: List[ICircuitProcessor],
         selection: ISelection,
-        stop_conditions: List[IStopCondition],
     ):
         # TODO: Add default values for unspecified
         # operators.
@@ -40,7 +37,6 @@ class GA:
         self.crossovers = crossovers
         self.circuit_processors = circuit_processors
         self.selection = selection
-        self.stop_conditions = stop_conditions
 
         self.after_generation_callbacks = []
 
@@ -75,12 +71,3 @@ class GA:
 
             for callback in self.after_generation_callbacks:
                 callback(population)
-
-            stop = False
-            for stop_condition in self.stop_conditions:
-                if stop_condition.is_met(population):
-                    stop = True
-                    break
-
-            if stop:
-                break

@@ -1,3 +1,4 @@
+import random
 from typing import List
 
 from ga4qc.mutation import IMutation
@@ -37,6 +38,25 @@ class GA:
     def run(self, population_size: int, gate_count: int, generations: int):
         population = self.seeder.seed(population_size, gate_count)
 
-        raise NotImplementedError()
         for generation in range(1, generations):
-            pass
+
+            # TODO: Perform Elitism
+
+            # TODO: Clone Population
+
+            random.shuffle(population)
+
+            for crossover in self.crossovers:
+                for circuit1, circuit2 in zip(population[:-1], population[1:]):
+                    if random.random() < crossover.prob:
+                        crossover.cross(circuit1, circuit2)
+
+            for mutation in self.mutations:
+                for circuit in population:
+                    if random.random() < mutation.prob:
+                        mutation.mutate(circuit)
+
+            for circuit_processor in self.circuit_processors:
+                circuit_processor.process(population)
+
+            population = self.selection.select(population)

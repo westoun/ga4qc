@@ -7,7 +7,7 @@ from ga4qc.circuit import Circuit
 class ICrossover(ABC):
     """Base class of all crossover operators."""
 
-    prob: float = 0.0
+    prob: float = 1.0
 
     @abstractmethod
-    def cross(self, circuits: List[Circuit]) -> None: ...
+    def cross(self, circuit1: Circuit, circuit2: Circuit) -> None: ...

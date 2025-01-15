@@ -25,5 +25,5 @@ class GateSet:
             gate = self.random_gate()
             gates.append(gate)
 
-        circuit = Circuit(gates)
+        circuit = Circuit(gates, self.qubit_num)
         return circuit

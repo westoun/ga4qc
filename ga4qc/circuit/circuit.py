@@ -1,7 +1,7 @@
 from numpy import ndarray
 from typing import List
 
-from .gate import IGate
+from .gates import IGate
 
 
 class Circuit:

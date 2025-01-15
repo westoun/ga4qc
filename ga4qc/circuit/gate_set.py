@@ -1,7 +1,7 @@
 from random import choice
 from typing import List, Type
 
-from .gate import IGate
+from .gates import IGate
 from .circuit import Circuit
 
 

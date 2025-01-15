@@ -14,3 +14,6 @@ class Circuit:
 
     def __init__(self, gates: List[IGate]):
         self.gates = gates
+
+    def __len__(self) -> int:
+        return len(self.gates)

@@ -10,6 +10,7 @@ from ga4qc.circuit_processor import ICircuitProcessor
 from ga4qc.selection import ISelection
 from ga4qc.seeder import ISeeder
 from ga4qc.stop_condition import IStopCondition
+from ga4qc.callback import ICallback
 
 
 class GA:
@@ -20,6 +21,8 @@ class GA:
     circuit_processors: List[ICircuitProcessor]
     selection: ISelection
     stop_conditions: List[IStopCondition]
+
+    after_generation_callbacks: List[ICallback]
 
     def __init__(
         self,
@@ -38,6 +41,11 @@ class GA:
         self.circuit_processors = circuit_processors
         self.selection = selection
         self.stop_conditions = stop_conditions
+
+        self.after_generation_callbacks = []
+
+    def on_after_generation(self, callback: ICallback) -> None:
+        self.after_generation_callbacks.append(callback)
 
     def run(self, population_size: int, gate_count: int, generations: int):
         population = self.seeder.seed(population_size, gate_count)
@@ -64,6 +72,9 @@ class GA:
                 circuit_processor.process(population)
 
             population = self.selection.select(population)
+
+            for callback in self.after_generation_callbacks:
+                callback(population)
 
             stop = False
             for stop_condition in self.stop_conditions:

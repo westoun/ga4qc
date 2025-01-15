@@ -9,6 +9,7 @@ from ga4qc.fitness import IFitness
 from ga4qc.circuit_processor import ICircuitProcessor
 from ga4qc.selection import ISelection
 from ga4qc.seeder import ISeeder
+from ga4qc.stop_condition import IStopCondition
 
 
 class GA:
@@ -18,6 +19,7 @@ class GA:
     crossovers: List[ICrossover]
     circuit_processors: List[ICircuitProcessor]
     selection: ISelection
+    stop_conditions: List[IStopCondition]
 
     def __init__(
         self,
@@ -26,6 +28,7 @@ class GA:
         crossovers: List[ICrossover],
         circuit_processors: List[ICircuitProcessor],
         selection: ISelection,
+        stop_conditions: List[IStopCondition],
     ):
         # TODO: Add default values for unspecified
         # operators.
@@ -34,6 +37,7 @@ class GA:
         self.crossovers = crossovers
         self.circuit_processors = circuit_processors
         self.selection = selection
+        self.stop_conditions = stop_conditions
 
     def run(self, population_size: int, gate_count: int, generations: int):
         population = self.seeder.seed(population_size, gate_count)
@@ -60,3 +64,12 @@ class GA:
                 circuit_processor.process(population)
 
             population = self.selection.select(population)
+
+            stop = False
+            for stop_condition in self.stop_conditions:
+                if stop_condition.is_met(population):
+                    stop = True
+                    break
+
+            if stop:
+                break

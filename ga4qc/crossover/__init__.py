@@ -1,2 +1,2 @@
 from .interface import ICrossover
-from .one_point_crossover import OnePointCrossover
+from .one_point import OnePointCrossover

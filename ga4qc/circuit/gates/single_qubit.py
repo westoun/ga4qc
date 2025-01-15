@@ -11,12 +11,18 @@ class Identity(IGate):
     def __init__(self, qubit_num: int):
         self.target = randint(0, qubit_num - 1)
 
+    def __repr__(self):
+        return f"Id(target={self.target})"
+
 
 class X(IGate):
     target: int
 
     def __init__(self, qubit_num: int):
         self.target = randint(0, qubit_num - 1)
+
+    def __repr__(self):
+        return f"X(target={self.target})"
 
 
 class Y(IGate):
@@ -25,12 +31,18 @@ class Y(IGate):
     def __init__(self, qubit_num: int):
         self.target = randint(0, qubit_num - 1)
 
+    def __repr__(self):
+        return f"Y(target={self.target})"
+
 
 class Z(IGate):
     target: int
 
     def __init__(self, qubit_num: int):
         self.target = randint(0, qubit_num - 1)
+
+    def __repr__(self):
+        return f"Z(target={self.target})"
 
 
 class H(IGate):
@@ -39,6 +51,9 @@ class H(IGate):
     def __init__(self, qubit_num: int):
         self.target = randint(0, qubit_num - 1)
 
+    def __repr__(self):
+        return f"H(target={self.target})"
+
 
 class S(IGate):
     target: int
@@ -46,12 +61,18 @@ class S(IGate):
     def __init__(self, qubit_num: int):
         self.target = randint(0, qubit_num - 1)
 
+    def __repr__(self):
+        return f"S(target={self.target})"
+
 
 class T(IGate):
     target: int
 
     def __init__(self, qubit_num: int):
         self.target = randint(0, qubit_num - 1)
+
+    def __repr__(self):
+        return f"T(target={self.target})"
 
 
 class RX(IOptimizableGate):
@@ -74,6 +95,9 @@ class RX(IOptimizableGate):
 
         self.theta = params[0]
 
+    def __repr__(self):
+        return f"RX(target={self.target}, theta={round(self.theta, 3)})"
+
 
 class RY(IOptimizableGate):
     target: int
@@ -94,6 +118,9 @@ class RY(IOptimizableGate):
         assert len(params) == 1, "The RY gate requires exactly one parameter!"
 
         self.theta = params[0]
+
+    def __repr__(self):
+        return f"RY(target={self.target}, theta={round(self.theta, 3)})"
 
 
 class RZ(IOptimizableGate):
@@ -116,6 +143,9 @@ class RZ(IOptimizableGate):
 
         self.theta = params[0]
 
+    def __repr__(self):
+        return f"RZ(target={self.target}, theta={round(self.theta, 3)})"
+
 
 class Phase(IOptimizableGate):
     target: int
@@ -136,3 +166,6 @@ class Phase(IOptimizableGate):
         assert len(params) == 1, "The phase gate requires exactly one parameter!"
 
         self.theta = params[0]
+
+    def __repr__(self):
+        return f"Phase(target={self.target}, theta={round(self.theta, 3)})"

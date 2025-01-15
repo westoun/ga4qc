@@ -17,6 +17,9 @@ class CCX(IGate):
 
         self.controll1, self.controll2, self.target = sample(range(0, qubit_num), 3)
 
+    def __repr__(self):
+        return f"CCX(control1={self.controll1}, control2={self.controll2}, target={self.target})"
+
 
 class CCZ(IGate):
     controll1: int
@@ -29,3 +32,6 @@ class CCZ(IGate):
         ), "The CC Z Gate requires at least 2 qubits to operate as intended."
 
         self.controll1, self.controll2, self.target = sample(range(0, qubit_num), 3)
+
+    def __repr__(self):
+        return f"CCZ(control1={self.controll1}, control2={self.controll2}, target={self.target})"

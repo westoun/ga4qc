@@ -16,6 +16,9 @@ class CX(IGate):
 
         self.target, self.controll = sample(range(0, qubit_num), 2)
 
+    def __repr__(self):
+        return f"CX(control={self.controll}, target={self.target})"
+
 
 class CY(IGate):
     controll: int
@@ -27,6 +30,9 @@ class CY(IGate):
         ), "The Controlled Y Gate requires at least 2 qubits to operate as intended."
 
         self.target, self.controll = sample(range(0, qubit_num), 2)
+
+    def __repr__(self):
+        return f"CY(control={self.controll}, target={self.target})"
 
 
 class CZ(IGate):
@@ -40,6 +46,9 @@ class CZ(IGate):
 
         self.target, self.controll = sample(range(0, qubit_num), 2)
 
+    def __repr__(self):
+        return f"CZ(control={self.controll}, target={self.target})"
+
 
 class CH(IGate):
     controll: int
@@ -51,6 +60,9 @@ class CH(IGate):
         ), "The Controlled H Gate requires at least 2 qubits to operate as intended."
 
         self.target, self.controll = sample(range(0, qubit_num), 2)
+
+    def __repr__(self):
+        return f"CH(control={self.controll}, target={self.target})"
 
 
 class CS(IGate):
@@ -64,6 +76,9 @@ class CS(IGate):
 
         self.target, self.controll = sample(range(0, qubit_num), 2)
 
+    def __repr__(self):
+        return f"CS(control={self.controll}, target={self.target})"
+
 
 class CT(IGate):
     controll: int
@@ -75,6 +90,9 @@ class CT(IGate):
         ), "The Controlled T Gate requires at least 2 qubits to operate as intended."
 
         self.target, self.controll = sample(range(0, qubit_num), 2)
+
+    def __repr__(self):
+        return f"CT(control={self.controll}, target={self.target})"
 
 
 class CRX(IOptimizableGate):
@@ -102,6 +120,9 @@ class CRX(IOptimizableGate):
 
         self.theta = params[0]
 
+    def __repr__(self):
+        return f"CRX(control={self.controll}, target={self.target}, theta={round(self.theta, 3)})"
+
 
 class CRY(IOptimizableGate):
     controll: int
@@ -128,6 +149,9 @@ class CRY(IOptimizableGate):
 
         self.theta = params[0]
 
+    def __repr__(self):
+        return f"CRY(control={self.controll}, target={self.target}, theta={round(self.theta, 3)})"
+
 
 class CRZ(IOptimizableGate):
     controll: int
@@ -153,3 +177,6 @@ class CRZ(IOptimizableGate):
         assert len(params) == 1, "The CRZ gate requires exactly one parameter!"
 
         self.theta = params[0]
+
+    def __repr__(self):
+        return f"CRZ(control={self.controll}, target={self.target}, theta={round(self.theta, 3)})"

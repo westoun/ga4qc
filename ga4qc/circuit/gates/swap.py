@@ -14,3 +14,6 @@ class Swap(IGate):
         ), "The Swap Gate requires at least 2 qubits to operate as intended."
 
         self.target1, self.target2 = sample(range(0, qubit_num), 2)
+
+    def __repr__(self):
+        return f"Swap(target1={self.target1}, target2={self.target2}"

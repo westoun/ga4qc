@@ -7,6 +7,9 @@ class IGate(ABC):
     @abstractmethod
     def __init__(self, qubit_num: int): ...
 
+    @abstractmethod
+    def __repr__(self) -> str: ...
+
 
 class IOptimizableGate(IGate, ABC):
 

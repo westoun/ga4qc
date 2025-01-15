@@ -15,3 +15,6 @@ class Oracle:
     @property
     def case_count(self) -> int:
         return len(self.sub_circuits)
+
+    def __repr__(self):
+        return "Oracle()"

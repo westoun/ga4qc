@@ -35,3 +35,6 @@ class Circuit:
 
     def copy(self) -> "Circuit":
         return deepcopy(self)
+
+    def __repr__(self):
+        return "[" + ", ".join([gate.__repr__() for gate in self.gates]) + "]"

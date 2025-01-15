@@ -18,7 +18,7 @@ class Circuit:
         self.gates = gates
         self.qubit_num = qubit_num
 
-        self.fitness_values = None 
+        self.fitness_values = None
         self.unitaries = None
 
     def __len__(self) -> int:
@@ -31,3 +31,6 @@ class Circuit:
                 return gate.case_count
 
         return 1
+
+    def copy(self) -> "Circuit":
+        raise NotImplementedError()

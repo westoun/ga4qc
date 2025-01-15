@@ -19,7 +19,7 @@ if __name__ == "__main__":
         seeder=RandomSeeder(gate_set),
         mutations=[RandomGateMutation(gate_set, circ_prob=1, gate_prob=0.1)],
         crossovers=[OnePointCrossover()],
-        circuit_processors=[simulator, fitness],
+        processors=[simulator, fitness],
         selection=None,
     )
 

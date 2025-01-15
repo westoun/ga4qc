@@ -15,7 +15,7 @@ class GA:
     seeder: ISeeder
     mutations: List[IMutation]
     crossovers: List[ICrossover]
-    circuit_processors: List[ICircuitProcessor]
+    processors: List[ICircuitProcessor]
     selection: ISelection
 
     after_generation_callbacks: List[ICallback]
@@ -25,7 +25,7 @@ class GA:
         seeder: ISeeder,
         mutations: List[IMutation],
         crossovers: List[ICrossover],
-        circuit_processors: List[ICircuitProcessor],
+        processors: List[ICircuitProcessor],
         selection: ISelection,
     ):
         # TODO: Add default values for unspecified
@@ -33,7 +33,7 @@ class GA:
         self.seeder = seeder
         self.mutations = mutations
         self.crossovers = crossovers
-        self.circuit_processors = circuit_processors
+        self.processors = processors
         self.selection = selection
 
         self.after_generation_callbacks = []
@@ -62,8 +62,8 @@ class GA:
                     if random.random() < mutation.prob:
                         mutation.mutate(circuit)
 
-            for circuit_processor in self.circuit_processors:
-                circuit_processor.process(population)
+            for processor in self.processors:
+                processor.process(population)
 
             population = self.selection.select(population)
 

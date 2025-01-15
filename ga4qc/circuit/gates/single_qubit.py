@@ -5,6 +5,13 @@ from typing import List
 from .interfaces import IGate, IOptimizableGate
 
 
+class Identity(IGate):
+    target: int
+
+    def __init__(self, qubit_num: int):
+        self.target = randint(0, qubit_num - 1)
+
+
 class X(IGate):
     target: int
 

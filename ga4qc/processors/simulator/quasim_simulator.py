@@ -28,6 +28,7 @@ from ga4qc.circuit.gates import (
     CCX,
     CCZ,
     Swap,
+    Identity,
 )
 from .interface import ISimulator
 
@@ -41,9 +42,13 @@ def to_quasim(circuit: Circuit) -> List[quasim.Circuit]:
         for gate in circuit.gates:
             if issubclass(gate, Oracle):
                 for gate_ in gate.get_gates(case_i):
+                    if type(gate_) is Identity:
+                        continue
+
                     quasim_gate = get_quasim_gate(gate_)
                     quasim_circuit.apply(quasim_gate)
-
+            elif type(gate) is Identity:
+                continue
             else:
                 quasim_gate = get_quasim_gate(gate)
                 quasim_circuit.apply(quasim_gate)

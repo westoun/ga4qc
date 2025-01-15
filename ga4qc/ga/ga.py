@@ -3,10 +3,8 @@ from typing import List
 
 from ga4qc.mutation import IMutation
 from ga4qc.crossover import ICrossover
-from ga4qc.simulator import ISimulator
 from ga4qc.circuit import Circuit, GateSet
-from ga4qc.fitness import IFitness
-from ga4qc.circuit_processor import ICircuitProcessor
+from ga4qc.processors import ICircuitProcessor
 from ga4qc.selection import ISelection
 from ga4qc.seeder import ISeeder
 from ga4qc.callback import ICallback

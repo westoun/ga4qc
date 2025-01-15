@@ -2,9 +2,10 @@ from abc import ABC, abstractmethod
 from typing import List
 
 from ga4qc.circuit import Circuit
+from ga4qc.processors.interface import ICircuitProcessor
 
 
-class ISimulator(ABC):
+class ISimulator(ICircuitProcessor):
     """Base class for all simulators.
 
     Wrapps the simulation of a population of
@@ -13,4 +14,4 @@ class ISimulator(ABC):
     to simulator gates."""
 
     @abstractmethod
-    def simulate(self, circuits: List[Circuit]) -> None: ...
+    def process(self, circuits: List[Circuit]) -> None: ...

@@ -40,7 +40,7 @@ def to_quasim(circuit: Circuit) -> List[quasim.Circuit]:
         quasim_circuit = quasim.Circuit(circuit.qubit_num)
 
         for gate in circuit.gates:
-            if issubclass(gate, Oracle):
+            if type(gate) is Oracle:
                 for gate_ in gate.get_gates(case_i):
                     if type(gate_) is Identity:
                         continue
@@ -52,6 +52,8 @@ def to_quasim(circuit: Circuit) -> List[quasim.Circuit]:
             else:
                 quasim_gate = get_quasim_gate(gate)
                 quasim_circuit.apply(quasim_gate)
+
+        quasim_circuits.append(quasim_circuit)
 
     return quasim_circuits
 

@@ -9,7 +9,7 @@ class Oracle:
     def __init__(self, sub_circuits: List[List[IGate]]):
         self.sub_circuits = sub_circuits
 
-    def gates(self, case_i: int) -> List[IGate]:
+    def get_gates(self, case_i: int) -> List[IGate]:
         return self.sub_circuits[case_i]
 
     @property

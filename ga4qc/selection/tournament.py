@@ -17,10 +17,10 @@ class TournamentSelection(ISelection):
         for _ in range(k):
             contestors = [choice(circuits) for _ in range(self.tourn_size)]
             scores = [circuit.fitness_values[0] for circuit in contestors]
-            max_score = max(scores)
-            max_idx = scores.index(max_score)
+            min_score = min(scores)
+            min_idx = scores.index(min_score)
 
-            winner = contestors[max_idx]
+            winner = contestors[min_idx]
             selection.append(winner.copy())
 
         return selection

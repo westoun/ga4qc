@@ -1,3 +1,4 @@
+from copy import deepcopy
 from numpy import ndarray
 from typing import List
 
@@ -33,4 +34,4 @@ class Circuit:
         return 1
 
     def copy(self) -> "Circuit":
-        raise NotImplementedError()
+        return deepcopy(self)

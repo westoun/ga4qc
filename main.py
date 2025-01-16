@@ -6,7 +6,7 @@ from typing import List
 
 from ga4qc.ga import GA
 from ga4qc.seeder import RandomSeeder
-from ga4qc.callback import ICallback
+from ga4qc.callback import ICallback, StoreFitnessStats
 from ga4qc.processors import QuasimSimulator, JensenShannonFitness, NumericalOptimizer
 from ga4qc.mutation import RandomGateMutation, ParameterChangeMutation
 from ga4qc.crossover import OnePointCrossover
@@ -15,17 +15,12 @@ from ga4qc.circuit import GateSet, Circuit
 from ga4qc.circuit.gates import Identity, CX, S, T, H, RX
 
 
-class PrintBestFitness(ICallback):
-    def __call__(self, circuits: List[Circuit], generation: int) -> None:
-        fitness_scores = [circuit.fitness_values[0] for circuit in circuits]
-
-        mean_fitness = mean(fitness_scores)
-        best_fitness = min(fitness_scores)
-        best_idx = fitness_scores.index(best_fitness)
-
-        print(f"\nBest fitness at gen {generation}: {best_fitness}")
-        print(f"Mean fitness: {mean_fitness}")
-        print(f"\t{circuits[best_idx]}")
+class PrintFitnessStats(StoreFitnessStats):
+    def store(self, fit_mean, fit_best, fit_worst, fit_stdev, generation=None) -> None:
+        print(f"\nFitness Stats at generation {generation}:")
+        print(f"\tBest: {fit_best}")
+        print(f"\tMean: {fit_mean}")
+        print(f"\tstdev: {fit_stdev}")
 
 
 if __name__ == "__main__":
@@ -52,6 +47,8 @@ if __name__ == "__main__":
         selection=TournamentSelection(tourn_size=2),
     )
 
-    ga.on_after_generation(PrintBestFitness())
+    ga.on_after_generation(PrintFitnessStats())
 
-    population = ga.run(population_size=50, gate_count=6, generations=20, elitism_count=5)
+    population = ga.run(
+        population_size=50, gate_count=6, generations=20, elitism_count=5
+    )

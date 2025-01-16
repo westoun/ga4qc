@@ -1,3 +1,3 @@
 from .interface import ICallback
-from .store_stats import StoreFitnessStats
-from .store_best_circuit import StoreBestCircuit
+from .handle_stats import FitnessStatsCallback
+from .handle_best_circuit import BestCircuitCallback

@@ -3,11 +3,13 @@ from typing import List
 from .interfaces import IGate
 
 
-class Oracle:
+class Oracle(IGate):
     sub_circuits: List[List[IGate]]
+    name: str
 
-    def __init__(self, sub_circuits: List[List[IGate]]):
+    def __init__(self, sub_circuits: List[List[IGate]], name: str = "Oracle"):
         self.sub_circuits = sub_circuits
+        self.name = name
 
     def get_gates(self, case_i: int) -> List[IGate]:
         return self.sub_circuits[case_i]
@@ -17,4 +19,16 @@ class Oracle:
         return len(self.sub_circuits)
 
     def __repr__(self):
-        return "Oracle()"
+        return f"{self.name}()"
+
+
+class OracleConstructor:
+    sub_circuits: List[List[IGate]]
+    name: str
+
+    def __init__(self, sub_circuits: List[List[IGate]], name: str = "Oracle"):
+        self.sub_circuits = sub_circuits
+        self.name = name
+
+    def __call__(self, qubit_num: int) -> Oracle:
+        return Oracle(sub_circuits=self.sub_circuits, name=self.name)

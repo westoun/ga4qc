@@ -6,7 +6,7 @@ from typing import List
 
 from ga4qc.ga import GA
 from ga4qc.seeder import RandomSeeder
-from ga4qc.callback import ICallback, StoreFitnessStats
+from ga4qc.callback import ICallback, StoreFitnessStats, StoreBestCircuit
 from ga4qc.processors import QuasimSimulator, JensenShannonFitness, NumericalOptimizer
 from ga4qc.mutation import RandomGateMutation, ParameterChangeMutation
 from ga4qc.crossover import OnePointCrossover
@@ -21,6 +21,11 @@ class PrintFitnessStats(StoreFitnessStats):
         print(f"\tBest: {fit_best}")
         print(f"\tMean: {fit_mean}")
         print(f"\tstdev: {fit_stdev}")
+
+
+class PrintBestCircuitStats(StoreBestCircuit):
+    def store(self, circuit: Circuit, generation=None):
+        print(f"\nBest circuit at gen {generation}: {circuit}")
 
 
 if __name__ == "__main__":
@@ -48,6 +53,7 @@ if __name__ == "__main__":
     )
 
     ga.on_after_generation(PrintFitnessStats())
+    ga.on_after_generation(PrintBestCircuitStats())
 
     population = ga.run(
         population_size=50, gate_count=6, generations=20, elitism_count=5

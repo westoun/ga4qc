@@ -29,6 +29,6 @@ class GateSet:
         return circuit
 
 
-CLIFFORD = [H, S, CX, Identity]
+CLIFFORD = [H, S, CX]
 
-CLIFFORD_PLUS_T = [H, S, CX, Identity, T]
+CLIFFORD_PLUS_T = [H, S, CX, T]

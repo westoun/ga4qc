@@ -20,6 +20,7 @@ class GA:
     best_selection: ISelection
 
     after_generation_callbacks: List[ICallback]
+    on_completion_callbacks: List[ICallback]
 
     def __init__(
         self,
@@ -39,9 +40,13 @@ class GA:
 
         self.best_selection = BestSelection()
         self.after_generation_callbacks = []
+        self.on_completion_callbacks = []
 
     def on_after_generation(self, callback: ICallback) -> None:
         self.after_generation_callbacks.append(callback)
+
+    def on_completion(self, callback: ICallback) -> None:
+        self.on_completion_callbacks.append(callback)
 
     def run(
         self,
@@ -85,4 +90,5 @@ class GA:
             for callback in self.after_generation_callbacks:
                 callback(population, generation)
 
-        return population
+        for callback in self.on_completion_callbacks:
+            callback(population, generation)

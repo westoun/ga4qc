@@ -81,8 +81,8 @@ def run():
     )
 
     ga.on_after_generation(PrintFitnessStats())
-    ga.on_after_generation(PrintBestCircuitStats())
+    ga.on_completion(PrintBestCircuitStats())
 
-    population = ga.run(
+    ga.run(
         population_size=200, gate_count=6, generations=50, elitism_count=5
     )

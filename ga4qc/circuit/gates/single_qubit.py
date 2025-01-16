@@ -67,8 +67,9 @@ class H(IGate):
     def __init__(self, target: int = 0):
         self.target = target
 
-    def randomize(self, qubit_num: int) -> None:
+    def randomize(self, qubit_num: int) -> IGate:
         self.target = randint(0, qubit_num - 1)
+        return self
 
     def __repr__(self):
         return f"H(target={self.target})"

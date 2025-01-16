@@ -55,9 +55,7 @@ class JensenShannonFitness(IFitness):
                     target_dist
                 ), f"Missmatch between produced distribution (len {len(circuit_dist)}) and target distribution (len {len(target_dist)})"
                 
-                with warnings.catch_warnings():
-                    warnings.simplefilter("ignore")
-                    error = distance.jensenshannon(circuit_dist, target_dist)
+                error = distance.jensenshannon(circuit_dist, target_dist)
                 errors.append(error)
 
             error = mean(errors)

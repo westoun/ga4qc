@@ -8,7 +8,7 @@ from ga4qc.circuit.gates import IOptimizableGate
 def extract_params(circuit: Circuit) -> List[float]:
     params = []
     for gate in circuit.gates:
-        if issubclass(gate, IOptimizableGate):
+        if issubclass(gate.__class__, IOptimizableGate):
             params.extend(gate.params)
 
     return params
@@ -16,7 +16,7 @@ def extract_params(circuit: Circuit) -> List[float]:
 
 def update_circuit(circuit: Circuit, params: List[float]) -> None:
     for gate in circuit.gates:
-        if issubclass(gate, IOptimizableGate):
+        if issubclass(gate.__class__, IOptimizableGate):
             param_count = len(gate.params)
 
             gate_params, params = (params[:param_count], params[param_count:])

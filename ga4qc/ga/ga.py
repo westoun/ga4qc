@@ -70,6 +70,6 @@ class GA:
             population = self.selection.select(offspring, population_size)
 
             for callback in self.after_generation_callbacks:
-                callback(population)
+                callback(population, generation)
 
         return population

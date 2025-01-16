@@ -4,7 +4,7 @@ from statistics import mean
 from typing import List
 import warnings
 
-from ga4qc.circuit import Circuit, state_vector_to_dist
+from ga4qc.circuit import Circuit, state_vector_to_dist, remove_ancillas
 from .interface import IFitness
 
 
@@ -14,10 +14,12 @@ class JensenShannonFitness(IFitness):
     and the state distribution it should produce.
     """
 
+    ancillary_qubit_num: int
     target_dists: List[np.ndarray]
 
-    def __init__(self, target_dists: List[np.ndarray]):
+    def __init__(self, target_dists: List[np.ndarray], ancillary_qubit_num: int = 0):
         self.target_dists = target_dists
+        self.ancillary_qubit_num = ancillary_qubit_num
 
     def process(self, circuits: List[Circuit]) -> None:
         for circuit in circuits:
@@ -28,7 +30,9 @@ class JensenShannonFitness(IFitness):
             )
 
             circuit_dists = [
-                state_vector_to_dist(state_vector)
+                remove_ancillas(
+                    state_vector_to_dist(state_vector), self.ancillary_qubit_num
+                )
                 for state_vector in circuit.state_vectors
             ]
 
@@ -48,4 +52,5 @@ class JensenShannonFitness(IFitness):
                 errors.append(error)
 
             error = mean(errors)
+
             circuit.fitness_values = [error]

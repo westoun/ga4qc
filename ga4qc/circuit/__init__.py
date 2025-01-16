@@ -6,4 +6,5 @@ from .utils import (
     state_vector_to_dist,
     random_circuit,
     random_gate,
+    remove_ancillas,
 )

@@ -33,6 +33,16 @@ class Circuit:
 
         return 1
 
+    @property
+    def state_vectors(self) -> List[ndarray]:
+        assert self.unitaries is not None, (
+            "Circuit unitaries have to be set for state vectors to be available. "
+            "Have you called a simulator?"
+        )
+
+        vectors = [unitary[:, 0] for unitary in self.unitaries]
+        return vectors
+
     def copy(self) -> "Circuit":
         return deepcopy(self)
 

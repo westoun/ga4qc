@@ -4,20 +4,8 @@ from statistics import mean
 from typing import List
 import warnings
 
-from ga4qc.circuit import Circuit
+from ga4qc.circuit import Circuit, state_vector_to_dist
 from .interface import IFitness
-
-
-def unitary_to_state_dist(unitary: np.ndarray) -> np.ndarray:
-    state = unitary[:, 0]
-    conjugate = state.conjugate()
-
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-
-        # Ignore "np.complex128Warning: Casting np.complex128 values to real discards the imaginary part"
-        # since that is precisely what we want.
-        return np.multiply(state, conjugate).astype(float)
 
 
 class JensenShannonFitness(IFitness):
@@ -40,7 +28,8 @@ class JensenShannonFitness(IFitness):
             )
 
             circuit_dists = [
-                unitary_to_state_dist(unitary) for unitary in circuit.unitaries
+                state_vector_to_dist(state_vector)
+                for state_vector in circuit.state_vectors
             ]
 
             # Case: the circuit does not make use of an oracle it could
@@ -54,7 +43,7 @@ class JensenShannonFitness(IFitness):
                 assert len(circuit_dist) == len(
                     target_dist
                 ), f"Missmatch between produced distribution (len {len(circuit_dist)}) and target distribution (len {len(target_dist)})"
-                
+
                 error = distance.jensenshannon(circuit_dist, target_dist)
                 errors.append(error)
 

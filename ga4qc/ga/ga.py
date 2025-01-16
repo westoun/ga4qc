@@ -3,7 +3,6 @@ from typing import List
 
 from ga4qc.mutation import IMutation
 from ga4qc.crossover import ICrossover
-from ga4qc.circuit import Circuit, GateSet
 from ga4qc.processors import ICircuitProcessor
 from ga4qc.selection import ISelection, BestSelection
 from ga4qc.seeder import ISeeder

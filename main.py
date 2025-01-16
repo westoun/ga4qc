@@ -11,7 +11,7 @@ from ga4qc.processors import QuasimSimulator, JensenShannonFitness, NumericalOpt
 from ga4qc.mutation import RandomGateMutation, ParameterChangeMutation
 from ga4qc.crossover import OnePointCrossover
 from ga4qc.selection import ISelection, TournamentSelection
-from ga4qc.circuit import GateSet, Circuit
+from ga4qc.circuit import Circuit
 from ga4qc.circuit.gates import Identity, CX, S, T, H, RX
 
 
@@ -29,12 +29,13 @@ class PrintBestCircuitStats(BestCircuitCallback):
 
 
 if __name__ == "__main__":
-    gate_set = GateSet([CX, RX, Identity], qubit_num=4)
+    gate_set = [CX, RX, Identity]
+    qubit_num = 4
 
     ga = GA(
-        seeder=RandomSeeder(gate_set),
+        seeder=RandomSeeder(gate_set, qubit_num),
         mutations=[
-            RandomGateMutation(gate_set, circ_prob=1, gate_prob=0.3),
+            RandomGateMutation(gate_set, qubit_num, circ_prob=1, gate_prob=0.3),
             ParameterChangeMutation(0.1, 0.5),
         ],
         crossovers=[OnePointCrossover()],

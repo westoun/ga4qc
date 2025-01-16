@@ -44,7 +44,7 @@ class GA:
     def run(self, population_size: int, gate_count: int, generations: int):
         population = self.seeder.seed(population_size, gate_count)
 
-        for generation in range(1, generations):
+        for generation in range(1, generations + 1):
 
             # TODO: Perform Elitism
 

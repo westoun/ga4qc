@@ -42,13 +42,8 @@ def to_quasim(circuit: Circuit) -> List[quasim.Circuit]:
         for gate in circuit.gates:
             if type(gate) is Oracle:
                 for gate_ in gate.get_gates(case_i):
-                    if type(gate_) is Identity:
-                        continue
-
                     quasim_gate = get_quasim_gate(gate_)
                     quasim_circuit.apply(quasim_gate)
-            elif type(gate) is Identity:
-                continue
             else:
                 quasim_gate = get_quasim_gate(gate)
                 quasim_circuit.apply(quasim_gate)
@@ -101,6 +96,10 @@ def get_quasim_gate(gate: IGate) -> quasim.gates.IGate:
         return quasim.gates.CCZ(gate.controll1, gate.controll2, gate.target)
     elif type(gate) is Swap:
         return quasim.gates.Swap(gate.target1, gate.target2)
+    elif type(gate) is Identity:
+        # Workaround since quasim does not have an identity gate
+        # as of version 1.0.0
+        return quasim.gates.Phase(gate.target, 2 * np.pi)
     else:
         raise NotImplementedError(
             f"The gate of type {type(gate)} does not "

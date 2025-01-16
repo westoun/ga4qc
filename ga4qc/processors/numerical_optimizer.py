@@ -46,7 +46,7 @@ class NumericalOptimizer(ICircuitProcessor):
                 self.fitness.process([circuit])
                 continue
 
-            bounds = get_bounds(circuit)
+            bounds = get_bounds(initial_params)
 
             objective_function = partial(
                 evaluate,
@@ -60,7 +60,7 @@ class NumericalOptimizer(ICircuitProcessor):
                 x0=initial_params,
                 method="Nelder-Mead",
                 bounds=bounds,
-                tol=self.params.tolerance,
+                tol=0,
                 options={"maxiter": self.rounds, "disp": False},
             )
 

@@ -14,7 +14,7 @@ def extract_params(circuit: Circuit) -> List[float]:
     return params
 
 
-def update_circuit(circuit: Circuit, params: List[float]) -> None:
+def update_params(circuit: Circuit, params: List[float]) -> None:
     for gate in circuit.gates:
         if issubclass(gate.__class__, IOptimizableGate):
             param_count = len(gate.params)

@@ -3,7 +3,7 @@ import numpy as np
 from scipy.optimize import minimize, OptimizeResult
 from typing import List, Tuple, Union
 
-from ga4qc.circuit import Circuit, update_circuit, extract_params
+from ga4qc.circuit import Circuit, update_params, extract_params
 from ga4qc.circuit.gates import IOptimizableGate
 from .interface import ICircuitProcessor
 from .fitness import IFitness
@@ -20,7 +20,7 @@ def get_bounds(params: List[float]) -> List[Tuple[float, float]]:
 def evaluate(
     params: List[float], circuit: Circuit, simulator: ISimulator, fitness: IFitness
 ) -> float:
-    update_circuit(circuit, params)
+    update_params(circuit, params)
     simulator.process([circuit])
     fitness.process([circuit])
     score = circuit.fitness_values[0]
@@ -65,4 +65,4 @@ class NumericalOptimizer(ICircuitProcessor):
             )
 
             best_params = optimization_result.x
-            update_circuit(circuit, best_params)
+            update_params(circuit, best_params)

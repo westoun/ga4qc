@@ -1,7 +1,7 @@
 from random import choice
 from typing import List, Type
 
-from .gates import IGate
+from .gates import IGate, H, S, CX, Identity, T
 from .circuit import Circuit
 
 
@@ -27,3 +27,8 @@ class GateSet:
 
         circuit = Circuit(gates, self.qubit_num)
         return circuit
+
+
+CLIFFORD = [H, S, CX, Identity]
+
+CLIFFORD_PLUS_T = [H, S, CX, Identity, T]

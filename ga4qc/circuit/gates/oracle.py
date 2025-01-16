@@ -11,6 +11,9 @@ class Oracle(IGate):
         self.sub_circuits = sub_circuits
         self.name = name
 
+    def randomize(self, qubit_num: int) -> IGate:
+        return self
+
     def get_gates(self, case_i: int) -> List[IGate]:
         return self.sub_circuits[case_i]
 
@@ -30,5 +33,5 @@ class OracleConstructor:
         self.sub_circuits = sub_circuits
         self.name = name
 
-    def __call__(self, qubit_num: int) -> Oracle:
+    def __call__(self) -> Oracle:
         return Oracle(sub_circuits=self.sub_circuits, name=self.name)

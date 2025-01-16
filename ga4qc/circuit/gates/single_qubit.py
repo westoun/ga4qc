@@ -8,8 +8,12 @@ from .interfaces import IGate, IOptimizableGate
 class Identity(IGate):
     target: int
 
-    def __init__(self, qubit_num: int):
+    def __init__(self, target: int = 0):
+        self.target = target
+
+    def randomize(self, qubit_num: int) -> IGate:
         self.target = randint(0, qubit_num - 1)
+        return self
 
     def __repr__(self):
         return f"Id(target={self.target})"
@@ -18,8 +22,12 @@ class Identity(IGate):
 class X(IGate):
     target: int
 
-    def __init__(self, qubit_num: int):
+    def __init__(self, target: int = 0):
+        self.target = target
+
+    def randomize(self, qubit_num: int) -> IGate:
         self.target = randint(0, qubit_num - 1)
+        return self
 
     def __repr__(self):
         return f"X(target={self.target})"
@@ -28,8 +36,12 @@ class X(IGate):
 class Y(IGate):
     target: int
 
-    def __init__(self, qubit_num: int):
+    def __init__(self, target: int = 0):
+        self.target = target
+
+    def randomize(self, qubit_num: int) -> IGate:
         self.target = randint(0, qubit_num - 1)
+        return self
 
     def __repr__(self):
         return f"Y(target={self.target})"
@@ -38,8 +50,12 @@ class Y(IGate):
 class Z(IGate):
     target: int
 
-    def __init__(self, qubit_num: int):
+    def __init__(self, target: int = 0):
+        self.target = target
+
+    def randomize(self, qubit_num: int) -> IGate:
         self.target = randint(0, qubit_num - 1)
+        return self
 
     def __repr__(self):
         return f"Z(target={self.target})"
@@ -48,7 +64,10 @@ class Z(IGate):
 class H(IGate):
     target: int
 
-    def __init__(self, qubit_num: int):
+    def __init__(self, target: int = 0):
+        self.target = target
+
+    def randomize(self, qubit_num: int) -> None:
         self.target = randint(0, qubit_num - 1)
 
     def __repr__(self):
@@ -58,8 +77,12 @@ class H(IGate):
 class S(IGate):
     target: int
 
-    def __init__(self, qubit_num: int):
+    def __init__(self, target: int = 0):
+        self.target = target
+
+    def randomize(self, qubit_num: int) -> IGate:
         self.target = randint(0, qubit_num - 1)
+        return self
 
     def __repr__(self):
         return f"S(target={self.target})"
@@ -68,8 +91,12 @@ class S(IGate):
 class T(IGate):
     target: int
 
-    def __init__(self, qubit_num: int):
+    def __init__(self, target: int = 0):
+        self.target = target
+
+    def randomize(self, qubit_num: int) -> IGate:
         self.target = randint(0, qubit_num - 1)
+        return self
 
     def __repr__(self):
         return f"T(target={self.target})"
@@ -79,12 +106,14 @@ class RX(IOptimizableGate):
     target: int
     theta: float
 
-    def __init__(self, qubit_num: int):
-        self.target = randint(0, qubit_num - 1)
+    def __init__(self, target: int = 0, theta: float = 0.0):
+        self.target = target
+        self.theta = theta
 
-        # Choose theta randomly, since theta = 0 is often a stationary
-        # point and fails numerical optimizers to progress.
+    def randomize(self, qubit_num: int) -> IGate:
+        self.target = randint(0, qubit_num - 1)
         self.theta = random() * 2 * np.pi - np.pi
+        return self
 
     @property
     def params(self) -> List[float]:
@@ -103,12 +132,14 @@ class RY(IOptimizableGate):
     target: int
     theta: float
 
-    def __init__(self, qubit_num: int):
-        self.target = randint(0, qubit_num - 1)
+    def __init__(self, target: int = 0, theta: float = 0.0):
+        self.target = target
+        self.theta = theta
 
-        # Choose theta randomly, since theta = 0 is often a stationary
-        # point and fails numerical optimizers to progress.
+    def randomize(self, qubit_num: int) -> IGate:
+        self.target = randint(0, qubit_num - 1)
         self.theta = random() * 2 * np.pi - np.pi
+        return self
 
     @property
     def params(self) -> List[float]:
@@ -127,12 +158,14 @@ class RZ(IOptimizableGate):
     target: int
     theta: float
 
-    def __init__(self, qubit_num: int):
-        self.target = randint(0, qubit_num - 1)
+    def __init__(self, target: int = 0, theta: float = 0.0):
+        self.target = target
+        self.theta = theta
 
-        # Choose theta randomly, since theta = 0 is often a stationary
-        # point and fails numerical optimizers to progress.
+    def randomize(self, qubit_num: int) -> IGate:
+        self.target = randint(0, qubit_num - 1)
         self.theta = random() * 2 * np.pi - np.pi
+        return self
 
     @property
     def params(self) -> List[float]:
@@ -151,12 +184,14 @@ class Phase(IOptimizableGate):
     target: int
     theta: float
 
-    def __init__(self, qubit_num: int):
-        self.target = randint(0, qubit_num - 1)
+    def __init__(self, target: int = 0, theta: float = 0.0):
+        self.target = target
+        self.theta = theta
 
-        # Choose theta randomly, since theta = 0 is often a stationary
-        # point and fails numerical optimizers to progress.
+    def randomize(self, qubit_num: int) -> IGate:
+        self.target = randint(0, qubit_num - 1)
         self.theta = random() * 2 * np.pi - np.pi
+        return self
 
     @property
     def params(self) -> List[float]:

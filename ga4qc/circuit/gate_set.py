@@ -15,7 +15,7 @@ class GateSet:
 
     def random_gate(self) -> IGate:
         GateType = choice(self.gate_types)
-        gate = GateType(self.qubit_num)
+        gate = GateType().randomize(self.qubit_num)
         return gate
 
     def random_circuit(self, gate_count: int) -> Circuit:

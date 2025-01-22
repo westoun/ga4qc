@@ -52,3 +52,9 @@ class Circuit:
 
     def __repr__(self):
         return "[" + ", ".join([gate.__repr__() for gate in self.gates]) + "]"
+
+    def __hash__(self) -> int:
+        return hash(self.__repr__())
+
+    def __eq__(self, comparison_circuit: "Circuit") -> bool:
+        return self.__hash__() == comparison_circuit.__hash__()

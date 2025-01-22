@@ -11,10 +11,13 @@ class DeapWrapper:
     fitness: DeapFitness
     circuit: Circuit
 
-    def __init__(self, circuit: Circuit):
+    def __init__(self, circuit: Circuit, weights: List[float] = None):
         self.circuit = circuit
 
-        DeapFitness.weights = tuple([-1 for _ in circuit.fitness_values])
+        if weights is None:
+            weights = tuple([-1 for _ in circuit.fitness_values])
+
+        DeapFitness.weights = weights
         self.fitness = DeapFitness(values=circuit.fitness_values)
 
     def unwrap(self) -> Circuit:
@@ -22,12 +25,14 @@ class DeapWrapper:
 
 
 class NSGA2(ISelection):
-    def __init__(self):
-        pass
+    weights: List[float]
+
+    def __init__(self, weights: List[float] = None):
+        self.weights = weights
 
     def select(self, circuits: List[Circuit], k: int) -> List[Circuit]:
         wrapped_circuits: List[DeapWrapper] = [
-            DeapWrapper(circuit) for circuit in circuits
+            DeapWrapper(circuit, weights=self.weights) for circuit in circuits
         ]
 
         selection: List[DeapWrapper] = selNSGA2(individuals=wrapped_circuits, k=k)

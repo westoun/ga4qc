@@ -1,3 +1,4 @@
+deap==1.4.2
 numpy==2.2.1
 quasim==1.0.0
 scipy==1.15.1

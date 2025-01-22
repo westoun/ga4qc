@@ -53,4 +53,4 @@ class JensenShannonFitness(IFitness):
 
             error = mean(errors)
 
-            circuit.fitness_values = [error]
+            circuit.fitness_values.append(error)

@@ -16,16 +16,18 @@ from ga4qc.circuit.gates import Identity, CX, S, T, H, RX
 
 
 class PrintFitnessStats(FitnessStatsCallback):
-    def handle(self, fit_mean, fit_best, fit_worst, fit_stdev, generation=None) -> None:
+    def handle(
+        self, fit_means, fit_mins, fit_maxs, fit_stdevs, generation=None
+    ) -> None:
         print(f"\nFitness Stats at generation {generation}:")
-        print(f"\tBest: {fit_best}")
-        print(f"\tMean: {fit_mean}")
-        print(f"\tstdev: {fit_stdev}")
+        print(f"\tBest: {fit_mins[0]}")
+        print(f"\tMean: {fit_means[0]}")
+        print(f"\tstdev: {fit_stdevs[0]}")
 
 
 class PrintBestCircuitStats(BestCircuitCallback):
-    def handle(self, circuit: Circuit, generation=None):
-        print(f"\nBest circuit at gen {generation}: {circuit}")
+    def handle(self, circuits: List[Circuit], generation=None):
+        print(f"\nBest circuit at gen {generation}: {circuits[0]}")
 
 
 def run():
@@ -56,6 +58,4 @@ def run():
     ga.on_after_generation(PrintFitnessStats())
     ga.on_completion(PrintBestCircuitStats())
 
-    ga.run(
-        population_size=50, gate_count=6, generations=20, elitism_count=5
-    )
+    ga.run(population_size=50, gate_count=6, generations=20, elitism_count=5)

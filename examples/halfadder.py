@@ -7,10 +7,10 @@ from typing import List
 from ga4qc.ga import GA
 from ga4qc.seeder import RandomSeeder
 from ga4qc.callback import ICallback, FitnessStatsCallback, BestCircuitCallback
-from ga4qc.processors import QuasimSimulator, JensenShannonFitness, NumericalOptimizer
+from ga4qc.processors import QuasimSimulator, JensenShannonFitness, GateCountFitness
 from ga4qc.mutation import RandomGateMutation, ParameterChangeMutation
 from ga4qc.crossover import OnePointCrossover
-from ga4qc.selection import ISelection, TournamentSelection
+from ga4qc.selection import ISelection, TournamentSelection, NSGA2
 from ga4qc.circuit import Circuit
 from ga4qc.circuit.gates import (
     Identity,
@@ -33,16 +33,20 @@ from ga4qc.circuit.gates import (
 
 
 class PrintFitnessStats(FitnessStatsCallback):
-    def handle(self, fit_mean, fit_best, fit_worst, fit_stdev, generation=None) -> None:
+    def handle(
+        self, fit_means, fit_mins, fit_maxs, fit_stdevs, generation=None
+    ) -> None:
         print(f"\nFitness Stats at generation {generation}:")
-        print(f"\tBest: {fit_best}")
-        print(f"\tMean: {fit_mean}")
-        print(f"\tstdev: {fit_stdev}")
+        print(f"\tBest: {fit_mins}")
+        print(f"\tMean: {fit_means}")
+        print(f"\tstdev: {fit_stdevs}")
 
 
 class PrintBestCircuitStats(BestCircuitCallback):
-    def handle(self, circuit: Circuit, generation=None):
-        print(f"\nBest circuit at gen {generation}: {circuit}")
+    def handle(self, circuits: List[Circuit], generation=None):
+        print(f"\nBest circuit at gen {generation}:")
+        for obj_i, circuit in enumerate(circuits):
+            print(f"Objective {obj_i}: {circuit}")
 
 
 def run():
@@ -76,13 +80,12 @@ def run():
         processors=[
             QuasimSimulator(),
             JensenShannonFitness(target_dists=target_dists, ancillary_qubit_num=1),
+            GateCountFitness(),
         ],
-        selection=TournamentSelection(tourn_size=2),
+        selection=NSGA2(),
     )
 
-    ga.on_after_generation(PrintFitnessStats())
-    ga.on_completion(PrintBestCircuitStats())
+    ga.on_after_generation(PrintFitnessStats(objective_count=2))
+    ga.on_completion(PrintBestCircuitStats(objective_count=2))
 
-    ga.run(
-        population_size=200, gate_count=6, generations=50, elitism_count=5
-    )
+    ga.run(population_size=200, gate_count=6, generations=50, elitism_count=5)

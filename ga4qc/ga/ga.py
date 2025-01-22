@@ -89,7 +89,7 @@ class GA:
                 processor.process(offspring)
 
             population = elite + self.selection.select(
-                offspring, population_size - elitism_count
+                offspring, population_size - len(elite)
             )
 
             for callback in self.after_generation_callbacks:

@@ -80,6 +80,11 @@ class GA:
                     if random.random() < mutation.prob:
                         mutation.mutate(circuit)
 
+            # Ensure that no old unitaries or fitness
+            # values remain in a changed circuit.
+            for circuit in offspring:
+                circuit.reset()
+
             for processor in self.processors:
                 processor.process(offspring)
 

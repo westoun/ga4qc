@@ -33,6 +33,10 @@ class Circuit:
 
         return 1
 
+    def reset(self) -> None:
+        self.unitaries = []
+        self.fitness_values = []
+
     @property
     def state_vectors(self) -> List[ndarray]:
         assert self.unitaries is not None, (

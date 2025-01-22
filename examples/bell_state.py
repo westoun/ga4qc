@@ -6,8 +6,18 @@ from typing import List
 
 from ga4qc.ga import GA
 from ga4qc.seeder import RandomSeeder
-from ga4qc.callback import ICallback, FitnessStatsCallback, BestCircuitCallback
-from ga4qc.processors import QuasimSimulator, JensenShannonFitness, NumericalOptimizer
+from ga4qc.callback import (
+    ICallback,
+    FitnessStatsCallback,
+    BestCircuitCallback,
+    UniqueCircuitCountCallback,
+)
+from ga4qc.processors import (
+    QuasimSimulator,
+    JensenShannonFitness,
+    NumericalOptimizer,
+    RemoveDuplicates,
+)
 from ga4qc.mutation import RandomGateMutation, ParameterChangeMutation
 from ga4qc.crossover import OnePointCrossover
 from ga4qc.selection import ISelection, TournamentSelection
@@ -30,19 +40,29 @@ class PrintBestCircuitStats(BestCircuitCallback):
         print(f"\nBest circuit at gen {generation}: {circuits[0]}")
 
 
+class PrintUniqueCircuitCount(UniqueCircuitCountCallback):
+    def handle(self, unique_circuit_count, circuit_count, generation=None):
+        print(
+            f"\nUnique circuits at gen {generation}: {unique_circuit_count} (of {circuit_count})"
+        )
+
+
 def run():
     gate_set = [CX, RX, Identity]
     gate_count = 6
     qubit_num = 4
 
+    seeder = RandomSeeder(gate_set, gate_count=gate_count, qubit_num=qubit_num)
+
     ga = GA(
-        seeder=RandomSeeder(gate_set, gate_count=gate_count, qubit_num=qubit_num),
+        seeder=seeder,
         mutations=[
             RandomGateMutation(gate_set, qubit_num, circ_prob=1, gate_prob=0.3),
             ParameterChangeMutation(circ_prob=1, gate_prob=0.3),
         ],
         crossovers=[OnePointCrossover()],
         processors=[
+            RemoveDuplicates(seeder=seeder),
             NumericalOptimizer(
                 simulator=QuasimSimulator(),
                 fitness=JensenShannonFitness(
@@ -57,6 +77,7 @@ def run():
     )
 
     ga.on_after_generation(PrintFitnessStats())
+    ga.on_after_generation(PrintUniqueCircuitCount())
     ga.on_completion(PrintBestCircuitStats())
 
     ga.run(population_size=50, gate_count=gate_count, generations=20, elitism_count=5)

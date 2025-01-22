@@ -32,10 +32,11 @@ class PrintBestCircuitStats(BestCircuitCallback):
 
 def run():
     gate_set = [CX, RX, Identity]
+    gate_count = 6
     qubit_num = 4
 
     ga = GA(
-        seeder=RandomSeeder(gate_set, qubit_num),
+        seeder=RandomSeeder(gate_set, gate_count=gate_count, qubit_num=qubit_num),
         mutations=[
             RandomGateMutation(gate_set, qubit_num, circ_prob=1, gate_prob=0.3),
             ParameterChangeMutation(circ_prob=1, gate_prob=0.3),
@@ -58,4 +59,4 @@ def run():
     ga.on_after_generation(PrintFitnessStats())
     ga.on_completion(PrintBestCircuitStats())
 
-    ga.run(population_size=50, gate_count=6, generations=20, elitism_count=5)
+    ga.run(population_size=50, gate_count=gate_count, generations=20, elitism_count=5)

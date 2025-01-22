@@ -70,8 +70,11 @@ def run():
 
     gate_set = [X, CX, CCX, Identity, HAOracle]
 
+    gate_count = 6
+    qubit_num = 3
+
     ga = GA(
-        seeder=RandomSeeder(gate_set, qubit_num=3),
+        seeder=RandomSeeder(gate_set, gate_count=gate_count, qubit_num=qubit_num),
         mutations=[
             RandomGateMutation(gate_set, qubit_num=3, circ_prob=1, gate_prob=0.3),
             # ParameterChangeMutation(circ_prob=0.1, gate_prob=0.1),
@@ -88,4 +91,4 @@ def run():
     ga.on_after_generation(PrintFitnessStats(objective_count=2))
     ga.on_completion(PrintBestCircuitStats(objective_count=2))
 
-    ga.run(population_size=200, gate_count=6, generations=50, elitism_count=5)
+    ga.run(population_size=200, gate_count=gate_count, generations=50, elitism_count=5)

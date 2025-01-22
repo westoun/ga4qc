@@ -55,7 +55,7 @@ class GA:
         generations: int,
         elitism_count: int = 0,
     ):
-        population = self.seeder.seed(population_size, gate_count)
+        population = self.seeder.seed(population_size)
 
         for generation in range(1, generations + 1):
 

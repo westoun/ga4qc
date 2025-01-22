@@ -9,20 +9,28 @@ from .interface import ICallback
 
 
 class BestCircuitCallback(ICallback, ABC):
+    objective_count: int
+
+    def __init__(self, objective_count: int = 1):
+        self.objective_count = objective_count
 
     def __call__(self, circuits: List[Circuit], generation: int) -> None:
-        fitness_scores = [circuit.fitness_values[0] for circuit in circuits]
+        best_circuits: List[Circuit] = []
 
-        best_fit = min(fitness_scores)
-        min_idx = fitness_scores.index(best_fit)
+        for obj_i in range(self.objective_count):
+            fitness_scores = [circuit.fitness_values[obj_i] for circuit in circuits]
 
-        best_circuit = circuits[min_idx]
+            best_fit = min(fitness_scores)
+            min_idx = fitness_scores.index(best_fit)
 
-        self.handle(best_circuit, generation)
+            best_circuit = circuits[min_idx]
+            best_circuits.append(best_circuit)
+
+        self.handle(best_circuits, generation)
 
     @abstractmethod
     def handle(
         self,
-        circuit: Circuit,
+        circuits: List[Circuit],
         generation: int = None,
     ) -> None: ...

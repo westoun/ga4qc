@@ -81,3 +81,7 @@ def run():
     ga.on_completion(PrintBestCircuitStats())
 
     ga.run(population_size=50, gate_count=gate_count, generations=20, elitism_count=5)
+
+
+if __name__ == "__main__":
+    run()

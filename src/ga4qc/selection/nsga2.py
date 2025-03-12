@@ -30,7 +30,7 @@ class NSGA2(ISelection):
     def __init__(self, weights: List[float] = None):
         self.weights = weights
 
-    def select(self, circuits: List[Circuit], k: int) -> List[Circuit]:
+    def select(self, circuits: List[Circuit], k: int, generation: int) -> List[Circuit]:
         wrapped_circuits: List[DeapWrapper] = [
             DeapWrapper(circuit, weights=self.weights) for circuit in circuits
         ]

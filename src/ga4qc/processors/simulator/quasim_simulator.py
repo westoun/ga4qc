@@ -109,7 +109,7 @@ def get_quasim_gate(gate: IGate) -> quasim.gates.IGate:
 
 class QuasimSimulator(ISimulator):
 
-    def process(self, circuits: List[Circuit]) -> None:
+    def process(self, circuits: List[Circuit], generation: int) -> None:
         for circuit in circuits:
             circuit.unitaries = []
 

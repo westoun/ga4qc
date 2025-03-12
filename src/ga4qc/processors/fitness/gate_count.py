@@ -14,7 +14,7 @@ class GateCountFitness(IFitness):
     def __init__(self):
         pass
 
-    def process(self, circuits: List[Circuit]) -> None:
+    def process(self, circuits: List[Circuit], generation: int) -> None:
         for circuit in circuits:
             gate_count = 0
 

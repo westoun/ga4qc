@@ -18,11 +18,11 @@ def get_bounds(params: List[float]) -> List[Tuple[float, float]]:
 
 
 def evaluate(
-    params: List[float], circuit: Circuit, simulator: ISimulator, fitness: IFitness
+    params: List[float], circuit: Circuit, simulator: ISimulator, fitness: IFitness, generation: int
 ) -> float:
     update_params(circuit, params)
-    simulator.process([circuit])
-    fitness.process([circuit])
+    simulator.process([circuit], generation)
+    fitness.process([circuit], generation)
     score = circuit.fitness_values[0]
     return score
 
@@ -37,13 +37,13 @@ class NumericalOptimizer(ICircuitProcessor):
         self.fitness = fitness
         self.rounds = rounds
 
-    def process(self, circuits: List[Circuit]) -> None:
+    def process(self, circuits: List[Circuit], generation: int) -> None:
         for circuit in circuits:
             initial_params = extract_params(circuit)
 
             if len(initial_params) == 0:
-                self.simulator.process([circuit])
-                self.fitness.process([circuit])
+                self.simulator.process([circuit], generation)
+                self.fitness.process([circuit], generation)
                 continue
 
             bounds = get_bounds(initial_params)
@@ -53,6 +53,7 @@ class NumericalOptimizer(ICircuitProcessor):
                 circuit=circuit,
                 simulator=self.simulator,
                 fitness=self.fitness,
+                generation=generation
             )
 
             optimization_result: OptimizeResult = minimize(

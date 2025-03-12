@@ -23,7 +23,7 @@ class ParameterChangeMutation(IMutation):
         self.mean = mean
         self.stdev = stdev
 
-    def mutate(self, circuit: Circuit) -> None:
+    def mutate(self, circuit: Circuit, generation: int) -> None:
         for i, gate in enumerate(circuit.gates):
 
             if not issubclass(gate.__class__, IOptimizableGate):

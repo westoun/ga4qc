@@ -7,7 +7,7 @@ from .interface import ISelection
 
 class BestSelection(ISelection):
 
-    def select(self, circuits: List[Circuit], k: int) -> List[Circuit]:
+    def select(self, circuits: List[Circuit], k: int, generation: int) -> List[Circuit]:
         sorted_circuits = sorted(
             circuits, key=lambda circuit: circuit.fitness_values[0]
         )

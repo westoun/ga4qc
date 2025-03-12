@@ -21,7 +21,7 @@ class JensenShannonFitness(IFitness):
         self.target_dists = target_dists
         self.ancillary_qubit_num = ancillary_qubit_num
 
-    def process(self, circuits: List[Circuit]) -> None:
+    def process(self, circuits: List[Circuit], generation: int) -> None:
         for circuit in circuits:
             assert len(circuit.unitaries) > 0, (
                 "The circuit has to be simulated before "

@@ -26,7 +26,7 @@ class RandomGateMutation(IMutation):
         self.prob = circ_prob
         self.gate_prob = gate_prob
 
-    def mutate(self, circuit: Circuit) -> None:
+    def mutate(self, circuit: Circuit, generation: int) -> None:
         for i, gate in enumerate(circuit.gates):
             if random.random() < self.gate_prob:
                 circuit.gates[i] = random_gate(self.gate_set, self.qubit_num)

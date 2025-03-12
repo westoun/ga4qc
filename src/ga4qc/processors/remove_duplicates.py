@@ -11,7 +11,7 @@ class RemoveDuplicates(ICircuitProcessor):
     def __init__(self, seeder: ISeeder):
         self.seeder = seeder
 
-    def process(self, circuits: List[Circuit]) -> None:
+    def process(self, circuits: List[Circuit], generation: int) -> None:
         encountered_circuits: Set = set()
 
         for i, circuit in enumerate(circuits):

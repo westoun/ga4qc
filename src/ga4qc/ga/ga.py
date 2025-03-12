@@ -62,7 +62,7 @@ class GA:
             if generation == 1:
                 elite = []
             else:
-                elite = self.best_selection.select(population, k=elitism_count)
+                elite = self.best_selection.select(population, k=elitism_count, generation=generation)
 
             offspring = [circuit.copy() for circuit in population]
 
@@ -73,12 +73,12 @@ class GA:
             for crossover in self.crossovers:
                 for circuit1, circuit2 in zip(offspring[:-1], offspring[1:]):
                     if random.random() < crossover.prob:
-                        crossover.cross(circuit1, circuit2)
+                        crossover.cross(circuit1, circuit2, generation)
 
             for mutation in self.mutations:
                 for circuit in offspring:
                     if random.random() < mutation.prob:
-                        mutation.mutate(circuit)
+                        mutation.mutate(circuit, generation)
 
             # Ensure that no old unitaries or fitness
             # values remain in a changed circuit.
@@ -86,10 +86,10 @@ class GA:
                 circuit.reset()
 
             for processor in self.processors:
-                processor.process(offspring)
+                processor.process(offspring, generation)
 
             population = elite + self.selection.select(
-                offspring, population_size - len(elite)
+                offspring, k=population_size - len(elite), generation=generation
             )
 
             for callback in self.after_generation_callbacks:

@@ -11,7 +11,7 @@ class TournamentSelection(ISelection):
     def __init__(self, tourn_size: int = 2):
         self.tourn_size = tourn_size
 
-    def select(self, circuits: List[Circuit], k: int) -> List[Circuit]:
+    def select(self, circuits: List[Circuit], k: int, generation: int) -> List[Circuit]:
         selection = []
 
         for _ in range(k):

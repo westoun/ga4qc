@@ -8,6 +8,8 @@ from ga4qc.selection import ISelection, BestSelection
 from ga4qc.seeder import ISeeder
 from ga4qc.callback import ICallback
 
+from ga4qc.params import GAParams
+
 
 class GA:
 
@@ -40,6 +42,7 @@ class GA:
         self.selection = selection
 
         self.best_selection = BestSelection()
+        self.before_generation_callbacks = []
         self.after_generation_callbacks = []
         self.on_completion_callbacks = []
 
@@ -54,14 +57,11 @@ class GA:
 
     def run(
         self,
-        population_size: int,
-        gate_count: int,
-        generations: int,
-        elitism_count: int = 0,
+        params: GAParams
     ):
-        population = self.seeder.seed(population_size)
+        population = self.seeder.seed(params.population_size)
 
-        for generation in range(1, generations + 1):
+        for generation in range(1, params.generations + 1):
             for callback in self.before_generation_callbacks:
                 callback(population, generation)
 
@@ -69,7 +69,7 @@ class GA:
                 elite = []
             else:
                 elite = self.best_selection.select(
-                    population, k=elitism_count, generation=generation)
+                    population, k=params.elitism_count, generation=generation)
 
             offspring = [circuit.copy() for circuit in population]
 
@@ -96,7 +96,7 @@ class GA:
                 processor.process(offspring, generation)
 
             population = elite + self.selection.select(
-                offspring, k=population_size - len(elite), generation=generation
+                offspring, k=params.population_size - len(elite), generation=generation
             )
 
             for callback in self.after_generation_callbacks:

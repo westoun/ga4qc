@@ -30,6 +30,7 @@ from ga4qc.circuit.gates import (
     OracleConstructor,
     IGate,
 )
+from ga4qc.params import GAParams
 
 
 class PrintFitnessStats(FitnessStatsCallback):
@@ -73,6 +74,14 @@ def run():
     gate_count = 6
     qubit_num = 3
 
+    params = GAParams(
+        population_size=200,
+        chromosome_length=6,
+        generations=50,
+        elitism_count=5
+    )
+
+
     ga = GA(
         seeder=RandomSeeder(gate_set, gate_count=gate_count, qubit_num=qubit_num),
         mutations=[
@@ -91,7 +100,7 @@ def run():
     ga.on_after_generation(PrintFitnessStats(objective_count=2))
     ga.on_completion(PrintBestCircuitStats(objective_count=2))
 
-    ga.run(population_size=200, gate_count=gate_count, generations=50, elitism_count=5)
+    ga.run(params)
 
 if __name__ == "__main__":
     run()

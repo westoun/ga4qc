@@ -23,6 +23,7 @@ from ga4qc.crossover import OnePointCrossover
 from ga4qc.selection import ISelection, TournamentSelection
 from ga4qc.circuit import Circuit
 from ga4qc.circuit.gates import Identity, CX, S, T, H, RX
+from ga4qc.params import GAParams
 
 
 class PrintFitnessStats(FitnessStatsCallback):
@@ -48,6 +49,13 @@ class PrintUniqueCircuitCount(UniqueCircuitCountCallback):
 
 
 def run():
+    params = GAParams(
+        population_size=50,
+        chromosome_length=6,
+        generations=20,
+        elitism_count=5
+    )
+
     gate_set = [CX, RX, Identity]
     gate_count = 6
     qubit_num = 4
@@ -80,7 +88,7 @@ def run():
     ga.on_after_generation(PrintUniqueCircuitCount())
     ga.on_completion(PrintBestCircuitStats())
 
-    ga.run(population_size=50, gate_count=gate_count, generations=20, elitism_count=5)
+    ga.run(params)
 
 
 if __name__ == "__main__":

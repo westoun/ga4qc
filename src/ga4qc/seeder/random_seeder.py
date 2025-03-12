@@ -2,23 +2,21 @@ from typing import List, Type
 
 from ga4qc.circuit import Circuit, IGate, random_circuit
 from .interface import ISeeder
+from ga4qc.params import GAParams
 
 
 class RandomSeeder(ISeeder):
-    gate_set: List[Type[IGate]]
-    gate_count: int
-    qubit_num: int
+    params: GAParams
 
-    def __init__(self, gate_set: List[Type[IGate]], gate_count: int, qubit_num: int):
-        self.gate_set = gate_set
-        self.gate_count = gate_count
-        self.qubit_num = qubit_num
+    def __init__(self, params: GAParams):
+        self.params = params
 
     def seed(self, population_size: int) -> List[Circuit]:
         population = []
 
         for _ in range(population_size):
-            circuit = random_circuit(self.gate_set, self.gate_count, self.qubit_num)
+            circuit = random_circuit(
+                self.params.gate_set, self.params.chromosome_length, self.params.qubit_num)
             population.append(circuit)
 
         return population

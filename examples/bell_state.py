@@ -49,7 +49,7 @@ class PrintUniqueCircuitCount(UniqueCircuitCountCallback):
 
 
 def run():
-    params = GAParams(
+    ga_params = GAParams(
         population_size=50,
         chromosome_length=6,
         generations=20,
@@ -58,16 +58,12 @@ def run():
         gate_set = [CX, RX, Identity]
     )
 
-    gate_set = [CX, RX, Identity]
-    gate_count = 6
-    qubit_num = 4
-
-    seeder = RandomSeeder(gate_set, gate_count=gate_count, qubit_num=qubit_num)
+    seeder = RandomSeeder(ga_params)
 
     ga = GA(
         seeder=seeder,
         mutations=[
-            RandomGateMutation(gate_set, qubit_num, circ_prob=1, gate_prob=0.3),
+            RandomGateMutation(ga_params, circ_prob=1, gate_prob=0.3),
             ParameterChangeMutation(circ_prob=1, gate_prob=0.3),
         ],
         crossovers=[OnePointCrossover()],
@@ -76,6 +72,7 @@ def run():
             NumericalOptimizer(
                 simulator=QuasimSimulator(),
                 fitness=JensenShannonFitness(
+                    ga_params,
                     target_dists=[
                         np.array([0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5])
                     ]
@@ -90,7 +87,7 @@ def run():
     ga.on_after_generation(PrintUniqueCircuitCount())
     ga.on_completion(PrintBestCircuitStats())
 
-    ga.run(params)
+    ga.run(ga_params)
 
 
 if __name__ == "__main__":

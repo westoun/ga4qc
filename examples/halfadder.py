@@ -79,20 +79,23 @@ def run():
         chromosome_length=6,
         generations=50,
         elitism_count=5,
-        qubit_num=3
+        qubit_num=3,
+        gate_set=[X, CX, CCX, Identity, HAOracle]
     )
 
-
     ga = GA(
-        seeder=RandomSeeder(gate_set, gate_count=gate_count, qubit_num=qubit_num),
+        seeder=RandomSeeder(gate_set, gate_count=gate_count,
+                            qubit_num=qubit_num),
         mutations=[
-            RandomGateMutation(gate_set, qubit_num=3, circ_prob=1, gate_prob=0.3),
+            RandomGateMutation(gate_set, qubit_num=3,
+                               circ_prob=1, gate_prob=0.3),
             # ParameterChangeMutation(circ_prob=0.1, gate_prob=0.1),
         ],
         crossovers=[OnePointCrossover()],
         processors=[
             QuasimSimulator(),
-            JensenShannonFitness(target_dists=target_dists, ancillary_qubit_num=1),
+            JensenShannonFitness(target_dists=target_dists,
+                                 ancillary_qubit_num=1),
             GateCountFitness(),
         ],
         selection=NSGA2(),
@@ -102,6 +105,7 @@ def run():
     ga.on_completion(PrintBestCircuitStats(objective_count=2))
 
     ga.run(params)
+
 
 if __name__ == "__main__":
     run()

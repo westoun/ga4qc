@@ -54,7 +54,8 @@ def run():
         chromosome_length=6,
         generations=20,
         elitism_count=5,
-        qubit_num=4
+        qubit_num=4,
+        gate_set = [CX, RX, Identity]
     )
 
     gate_set = [CX, RX, Identity]

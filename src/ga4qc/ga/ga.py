@@ -19,6 +19,7 @@ class GA:
 
     best_selection: ISelection
 
+    before_generation_callbacks: List[ICallback]
     after_generation_callbacks: List[ICallback]
     on_completion_callbacks: List[ICallback]
 
@@ -42,6 +43,9 @@ class GA:
         self.after_generation_callbacks = []
         self.on_completion_callbacks = []
 
+    def on_before_generation(self, callback: ICallback) -> None:
+        self.before_generation_callbacks.append(callback)
+
     def on_after_generation(self, callback: ICallback) -> None:
         self.after_generation_callbacks.append(callback)
 
@@ -58,11 +62,14 @@ class GA:
         population = self.seeder.seed(population_size)
 
         for generation in range(1, generations + 1):
+            for callback in self.before_generation_callbacks:
+                callback(population, generation)
 
             if generation == 1:
                 elite = []
             else:
-                elite = self.best_selection.select(population, k=elitism_count, generation=generation)
+                elite = self.best_selection.select(
+                    population, k=elitism_count, generation=generation)
 
             offspring = [circuit.copy() for circuit in population]
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
+import random
 from statistics import mean
 from typing import List
 
@@ -91,4 +92,5 @@ def run():
 
 
 if __name__ == "__main__":
+    random.seed(0)
     run()

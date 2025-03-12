@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
+import random
 from statistics import mean
 from typing import List
 
@@ -51,7 +52,6 @@ class PrintBestCircuitStats(BestCircuitCallback):
 
 
 def run():
-
     HAOracle = OracleConstructor(
         sub_circuits=[
             [Identity()],  # case: input is 00
@@ -102,4 +102,5 @@ def run():
 
 
 if __name__ == "__main__":
+    random.seed(0)
     run()

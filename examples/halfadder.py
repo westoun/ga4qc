@@ -78,7 +78,8 @@ def run():
         population_size=200,
         chromosome_length=6,
         generations=50,
-        elitism_count=5
+        elitism_count=5,
+        qubit_num=3
     )
 
 

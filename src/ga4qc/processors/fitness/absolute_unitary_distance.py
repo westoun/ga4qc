@@ -43,7 +43,7 @@ class AbsoluteUnitaryDistance(IFitness):
             distances: List[float] = []
 
             for circuit_unitary, target_unitary in zip(circuit_unitaries, self.target_unitaries):
-                N = len(circuit_unitary)
+                N = 2 ** self.ga_params.qubit_num
 
                 distance = 0
                 for i in range(N):

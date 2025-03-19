@@ -15,7 +15,8 @@ from ga4qc.callback import (
 from ga4qc.processors import (
     QuasimSimulator,
     RemoveDuplicates,
-    AbsoluteUnitaryDistance
+    AbsoluteUnitaryDistance,
+    WilliamsRankingFitness
 )
 from ga4qc.mutation import RandomGateMutation, ParameterChangeMutation
 from ga4qc.crossover import OnePointCrossover
@@ -83,9 +84,10 @@ def run():
             RemoveDuplicates(seeder=seeder),
             QuasimSimulator(),
             AbsoluteUnitaryDistance(
-                ga_params, target_unitaries=[target_unitary])
+                ga_params, target_unitaries=[target_unitary]),
+            WilliamsRankingFitness(objective_i=0)
         ],
-        selection=TournamentSelection(tourn_size=2),
+        selection=TournamentSelection(tourn_size=2, objective_i=1),
     )
 
     ga.on_after_generation(PrintFitnessStats())

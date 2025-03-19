@@ -59,13 +59,13 @@ def create_cnx_unitary(qubit_num: int) -> np.ndarray:
 
 
 def run():
-    qubit_num = 2
+    qubit_num = 3
 
     ga_params = GAParams(
-        population_size=50,
+        population_size=100,
         chromosome_length=20,
-        generations=100,
-        elitism_count=5,
+        generations=1000,
+        elitism_count=10,
         qubit_num=qubit_num,
         gate_set=CLIFFORD_PLUS_T + [Identity]
     )

@@ -14,6 +14,9 @@ class WeightedSumFitness(IFitness):
     def process(self, circuits: Circuit, generation: int) -> None:
         for circuit in circuits:
 
+            assert len(circuit.fitness_values) == len(
+                self.weights), "Mismatch between amount of weights specified and fitness values of circuit."
+
             fitness = 0
             for obj_i, weight in enumerate(self.weights):
                 fitness += weight * circuit.fitness_values[obj_i]

@@ -17,6 +17,6 @@ class RemoveDuplicates(ICircuitProcessor):
         for i, circuit in enumerate(circuits):
 
             if circuit in encountered_circuits:
-                circuits[i] = self.seeder.seed(population_size=1)
+                circuits[i] = self.seeder.seed(population_size=1)[0]
             else:
                 encountered_circuits.add(circuit)

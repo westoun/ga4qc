@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2025-03-24
+
+- add weighted sum fitness score.
+- fix bug in remove duplicates processor.
+- adjust internal init values in circuit class.
+
 ## [0.3.0] - 2025-03-19
 
 - add possibility to specify which objective a selection strategy

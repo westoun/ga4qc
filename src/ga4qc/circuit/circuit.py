@@ -19,8 +19,8 @@ class Circuit:
         self.gates = gates
         self.qubit_num = qubit_num
 
-        self.fitness_values = None
-        self.unitaries = None
+        self.unitaries = []
+        self.fitness_values = []
 
     def __len__(self) -> int:
         return len(self.gates)

@@ -237,3 +237,39 @@ class CRZ(IOptimizableGate):
 
     def __repr__(self):
         return f"CRZ(control={self.controll}, target={self.target}, theta={round(self.theta, 3)})"
+
+
+class CPhase(IOptimizableGate):
+    controll: int
+    target: int
+    theta: float
+
+    def __init__(self, controll: int = 0, target: int = 1, theta: float = 0.0):
+        self.controll = controll
+        self.target = target
+        self.theta = theta
+
+    def randomize(self, qubit_num: int) -> IGate:
+        assert (
+            qubit_num > 1
+        ), "The CPhase Gate requires at least 2 qubits to operate as intended."
+
+        self.target, self.control = sample(range(0, qubit_num), 2)
+
+        # Choose theta randomly, since theta = 0 is often a stationary
+        # point and fails numerical optimizers to progress.
+        self.theta = random() * 2 * np.pi - np.pi
+
+        return self
+
+    @property
+    def params(self) -> List[float]:
+        return [self.theta]
+
+    def set_params(self, params: List[float]) -> None:
+        assert len(params) == 1, "The CPhase gate requires exactly one parameter!"
+
+        self.theta = params[0]
+
+    def __repr__(self):
+        return f"CPhase(control={self.controll}, target={self.target}, theta={round(self.theta, 3)})"

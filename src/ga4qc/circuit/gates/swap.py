@@ -21,4 +21,4 @@ class Swap(IGate):
         return self
 
     def __repr__(self):
-        return f"Swap(target1={self.target1}, target2={self.target2}"
+        return f"Swap(target1={self.target1}, target2={self.target2})"

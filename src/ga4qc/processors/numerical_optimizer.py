@@ -20,6 +20,7 @@ def get_bounds(params: List[float]) -> List[Tuple[float, float]]:
 def evaluate(
     params: List[float], circuit: Circuit, simulator: ISimulator, fitness: IFitness, generation: int
 ) -> float:
+    circuit.reset()
     update_params(circuit, params)
     simulator.process([circuit], generation)
     fitness.process([circuit], generation)

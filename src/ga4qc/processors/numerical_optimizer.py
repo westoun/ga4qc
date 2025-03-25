@@ -13,7 +13,7 @@ from .simulator import ISimulator
 def get_bounds(params: List[float]) -> List[Tuple[float, float]]:
     bounds = []
     for _ in params:
-        bounds.append((-np.pi, np.pi))
+        bounds.append((-2 * np.pi, 2 * np.pi))
     return bounds
 
 
